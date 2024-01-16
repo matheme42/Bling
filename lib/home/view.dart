@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'body/bottom_appbar.dart';
+import 'bottom_appbar.dart';
 import 'body/budget_depense_shart/body.dart';
 
 class Home extends StatefulWidget {

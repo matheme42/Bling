@@ -113,7 +113,7 @@ class TicketState extends State<Ticket> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
+                                decimal: true, signed: true),
                             controller: priceController,
                             validator: (source) {
                               double? value = double.tryParse(source ?? '');
