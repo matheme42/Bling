@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bling/color.dart';
 import 'package:bling/home/body/budget_definition/body.dart';
 import 'package:bling/home/body/budget_depense/dart/body.dart';
 import 'package:bling/home/body/budget_shart/shart.dart';
@@ -46,14 +47,12 @@ class HomeState extends State<Home> {
   }
 
   Future<void> updateBudgetInstance() async {
-    BudgetCategoryController controller =
-        MyApp.of(context).budgetCategoryController;
     BudgetInstanceController instanceController =
-        MyApp.of(context).budgetInstanceController;
-    DepenseController depenseController = MyApp.of(context).depenseController;
+        Bling.of(context).budgetInstanceController;
+    DepenseController depenseController = Bling.of(context).depenseController;
 
     List<BudgetCategory> categories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     for (var category in categories) {
       if (category.activeInstance == null) {
         List<BudgetInstance> instances = await instanceController.getsCurrent();
@@ -89,7 +88,7 @@ class HomeState extends State<Home> {
   bool lockFloatingActionButton = false;
 
   Future<void> onWantAddDepense() async {
-    if (MyApp.of(context).budgetCategoryController.budgetCategories.isEmpty) {
+    if (Bling.of(context).budgetCategoryController.budgetCategories.isEmpty) {
       return;
     }
     await showAnimatedDialog(
@@ -142,6 +141,21 @@ class HomeState extends State<Home> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            bottom: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+              title: MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.0)
+                ),
+                color: BlingColor.scaffoldColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/second');
+                  },
+                child: const Text('Nouvelle Interface'),
+              ),
+            ),
             title: Stack(
               children: [
                 // Implement the stroke

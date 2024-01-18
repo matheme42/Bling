@@ -225,12 +225,17 @@ abstract class AppBase extends Base
   State<StatefulWidget> createState() => AppBaseState();
 }
 
-class AppBaseState extends State<AppBase> with WidgetsBindingObserver {
+class AppBaseState <T extends AppBase> extends State<AppBase> with WidgetsBindingObserver {
   bool loaded = false;
+
+  @override
+  T get widget => _widget!;
+  T? _widget;
 
   @override
   void initState() {
     super.initState();
+    _widget = super.widget as T;
     widget._logger.finest("--> initState (AppBaseState)");
     widget._logger.finer("    configure app (AppBaseState)");
     widget.configure(onLoadingForward).then(onLoadingDone);

@@ -21,12 +21,12 @@ class BudgetDepenseBodyState extends State<BudgetDepenseBody> {
   @override
   Widget build(BuildContext context) {
     List<BudgetCategory> budgetCategories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Builder(
         builder: (context) {
-          if (MyApp.of(context).budgetCategoryController.budgetCategories.isEmpty) {
+          if (Bling.of(context).budgetCategoryController.budgetCategories.isEmpty) {
             return const Padding(
               padding: EdgeInsets.all(8.0),
               child: Center(
@@ -109,7 +109,7 @@ class BudgetDepenseBodyState extends State<BudgetDepenseBody> {
                             child: InkWell(
                               customBorder: const CircleBorder(),
                                 onTap: () async {
-                                  await MyApp.of(context).depenseController.delete(depense);
+                                  await Bling.of(context).depenseController.delete(depense);
                                   depense.associatedInstance?.spends.remove(depense);
                                   depense.associatedInstance?.depense -= depense.number;
                                   setState(() {});

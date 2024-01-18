@@ -76,7 +76,7 @@ class BudgetCategoryBottomSheetState extends State<BudgetCategoryBottomSheet> {
     }
 
     for (var elm
-        in MyApp.of(context).budgetCategoryController.budgetCategories) {
+        in Bling.of(context).budgetCategoryController.budgetCategories) {
       if (elm.name == fieldByUser &&
           widget.budgetCategory?.name != fieldByUser) {
         return "la category $fieldByUser existe déjà";
@@ -104,7 +104,7 @@ class BudgetCategoryBottomSheetState extends State<BudgetCategoryBottomSheet> {
   Future<void> onSubmit() async {
     if (_formKey.currentState!.validate()) {
       BudgetCategoryController controller =
-          MyApp.of(context).budgetCategoryController;
+          Bling.of(context).budgetCategoryController;
       BudgetCategory budgetCategory = widget.budgetCategory ??
           await controller.getByName(nameController.text) ??
           BudgetCategory();
@@ -126,7 +126,7 @@ class BudgetCategoryBottomSheetState extends State<BudgetCategoryBottomSheet> {
   }
 
   void onDelete() {
-    MyApp.of(context)
+    Bling.of(context)
         .budgetCategoryController
         .delete(widget.budgetCategory!)
         .then((value) {
@@ -136,11 +136,11 @@ class BudgetCategoryBottomSheetState extends State<BudgetCategoryBottomSheet> {
 
   void onDisable() {
     widget.budgetCategory!.enable = false;
-    MyApp.of(context)
+    Bling.of(context)
         .budgetCategoryController
         .update(widget.budgetCategory!)
         .then((value) {
-      MyApp.of(context)
+      Bling.of(context)
           .budgetCategoryController
           .budgetCategories
           .remove(widget.budgetCategory);

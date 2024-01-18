@@ -51,7 +51,7 @@ class TicketState extends State<Ticket> {
       d.associatedInstance = budgetCategorySelected.activeInstance;
       d.associatedInstance!.spends.add(d);
       d.associatedInstance!.depense += d.number;
-      MyApp.of(context).depenseController.insert(d);
+      Bling.of(context).depenseController.insert(d);
       Navigator.pop(context);
     } else {
       setState(() {});

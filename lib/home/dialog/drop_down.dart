@@ -17,7 +17,7 @@ class _DropdownItemState extends State<DropdownItem> {
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<BudgetCategory> categories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     List<DropdownMenuItem<String>> menuItems =
         List.generate(categories.length, (index) {
       BudgetCategory category = categories[index];
@@ -30,7 +30,7 @@ class _DropdownItemState extends State<DropdownItem> {
 
   void onFirstCategorySelected() {
     BudgetCategory category =
-        MyApp.of(context).budgetCategoryController.budgetCategories.first;
+        Bling.of(context).budgetCategoryController.budgetCategories.first;
     selectedValue ??= category.name;
     widget.onBudgetSelect(category);
   }
@@ -59,7 +59,7 @@ class _DropdownItemState extends State<DropdownItem> {
           onChanged: (v) => setState(() {
                 selectedValue = v!;
                 List<BudgetCategory> l =
-                    MyApp.of(context).budgetCategoryController.budgetCategories;
+                    Bling.of(context).budgetCategoryController.budgetCategories;
                 widget.onBudgetSelect(l.firstWhere((e) => e.name == v));
               }),
           items: dropdownItems),

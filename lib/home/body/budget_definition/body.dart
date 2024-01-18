@@ -26,7 +26,7 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
   bool get budgetLock => _budgetLock;
 
   set budgetLock(bool value) {
-    MyApp.of(context).sharedPreferences.setBool('budgetLock', value);
+    Bling.of(context).sharedPreferences.setBool('budgetLock', value);
     _budgetLock = value;
   }
 
@@ -36,7 +36,7 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _budgetLock =
-          MyApp.of(context).sharedPreferences.getBool('budgetLock') ?? false;
+          Bling.of(context).sharedPreferences.getBool('budgetLock') ?? false;
       if (mounted) setState(() {});
     });
   }
@@ -59,11 +59,11 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
   }
 
   Budget get budget {
-    return MyApp.of(context).budgetController.budget!;
+    return Bling.of(context).budgetController.budget!;
   }
 
   List<BudgetCategory> get budgetCategories {
-    return MyApp.of(context).budgetCategoryController.budgetCategories;
+    return Bling.of(context).budgetCategoryController.budgetCategories;
   }
 
   void updateGlobalBudget() {
@@ -72,9 +72,9 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
       total += e.number;
     }
     budget.number = total;
-    MyApp.of(context)
+    Bling.of(context)
         .budgetController
-        .update(MyApp.of(context).budgetController.budget!);
+        .update(Bling.of(context).budgetController.budget!);
   }
 
   void updateBudgetOrSliderOnChange(int instanceSelectedIndex) {
@@ -90,9 +90,9 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
         instance.number = 0;
       }
       categorySelected.number = budget.number;
-      MyApp.of(context).budgetCategoryController.update(categorySelected);
+      Bling.of(context).budgetCategoryController.update(categorySelected);
       if (categorySelected.activeInstance != null) {
-        MyApp.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
+        Bling.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
       }
       return;
     }
@@ -110,9 +110,9 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
       }
     }
     if (budgetAvailable == 0) {
-      MyApp.of(context).budgetCategoryController.update(categorySelected);
+      Bling.of(context).budgetCategoryController.update(categorySelected);
       if (categorySelected.activeInstance != null) {
-        MyApp.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
+        Bling.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
       }
       return;
     }
@@ -126,9 +126,9 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
         break;
       }
     }
-    MyApp.of(context).budgetCategoryController.update(categorySelected);
+    Bling.of(context).budgetCategoryController.update(categorySelected);
     if (categorySelected.activeInstance != null) {
-      MyApp.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
+      Bling.of(context).budgetInstanceController.update(categorySelected.activeInstance!);
     }
   }
 
@@ -187,13 +187,13 @@ class HomeBodyState extends State<HomeBody> with AutomaticKeepAliveClientMixin {
                     sliderOff: !budgetLock,
                     onChange: (value) {
                       budgetCategories[index].number = value ?? 0;
-                      MyApp.of(context)
+                      Bling.of(context)
                           .budgetCategoryController
                           .update(budgetCategories[index])
                           .then((value) {
                             if (budgetCategories[index].activeInstance != null) {
                               budgetCategories[index].activeInstance!.number = budgetCategories[index].number;
-                              MyApp.of(context).budgetInstanceController.update(budgetCategories[index].activeInstance!);
+                              Bling.of(context).budgetInstanceController.update(budgetCategories[index].activeInstance!);
                             }
                         updateBudgetOrSliderOnChange(index);
                         setState(() {});

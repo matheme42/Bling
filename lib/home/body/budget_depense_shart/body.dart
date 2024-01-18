@@ -31,9 +31,9 @@ class BarChartSample1State extends State<BarChartSample1> {
   @override
   Widget build(BuildContext context) {
     int len =
-        MyApp.of(context).budgetCategoryController.budgetCategories.length;
+        Bling.of(context).budgetCategoryController.budgetCategories.length;
     return Builder(builder: (context) {
-      if (MyApp.of(context).budgetCategoryController.budgetCategories.isEmpty) {
+      if (Bling.of(context).budgetCategoryController.budgetCategories.isEmpty) {
         return const Padding(
           padding: EdgeInsets.all(8.0),
           child: Center(
@@ -111,7 +111,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   List<BarChartGroupData> showingGroups() {
     List<BudgetCategory> categories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     return List.generate(categories.length, (i) {
       BudgetCategory category = categories[i];
       BudgetInstance instance = category.activeInstance!;
@@ -122,7 +122,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   BarChartData mainBarData() {
     int len =
-        MyApp.of(context).budgetCategoryController.budgetCategories.length;
+        Bling.of(context).budgetCategoryController.budgetCategories.length;
     bool isLeft = touchedIndex >= len * 0.5;
 
     return BarChartData(
@@ -134,7 +134,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           tooltipMargin: -50,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             List<BudgetCategory> categories =
-                MyApp.of(context).budgetCategoryController.budgetCategories;
+                Bling.of(context).budgetCategoryController.budgetCategories;
             BudgetCategory category = categories[group.x];
             BudgetInstance instance = category.activeInstance!;
             return BarTooltipItem(
@@ -196,7 +196,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   Widget getTopTitles(double value, TitleMeta meta) {
     List<BudgetCategory> categories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     BudgetCategory category = categories[value.toInt()];
     BudgetInstance budgetInstance = category.activeInstance!;
 
@@ -214,7 +214,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   Widget getTitles(double value, TitleMeta meta) {
     List<BudgetCategory> categories =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     BudgetCategory category = categories[value.toInt()];
 
     return SideTitleWidget(

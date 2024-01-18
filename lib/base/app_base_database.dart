@@ -51,6 +51,8 @@ abstract class Controller<T extends Model> {
 mixin BaseDatabaseController on Base {
   static Database? _database;
 
+  int get dbVersion => 1;
+
   Future<Database> get database async => (_database ?? await _create());
 
   /// Create the database
@@ -59,9 +61,17 @@ mixin BaseDatabaseController on Base {
     String path = join(databasesPath, 'db.db');
 
     _database =
-        await openDatabase(path, version: 1, onCreate: onCreatingDatabase);
+        await openDatabase(
+          path,
+          version: dbVersion,
+          onCreate: onCreatingDatabase,
+          onUpgrade: onUpgrade
+        );
     return (_database!);
   }
+
+  @protected
+  FutureOr<void> onUpgrade(Database db, int oldVersion, int newVersion) async {}
 
   @protected
   FutureOr<void> onCreatingDatabase(Database db, int version) async {}

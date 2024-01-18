@@ -24,7 +24,7 @@ class BudgetPieChartState extends State<BudgetPieChart> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       detectChange =
-          MyApp.of(context).budgetCategoryController.onChange.listen((event) {
+          Bling.of(context).budgetCategoryController.onChange.listen((event) {
         if (mounted) setState(() {});
       });
     });
@@ -39,12 +39,12 @@ class BudgetPieChartState extends State<BudgetPieChart> {
 
   List<BudgetCategory> get budgetCategories {
     List<BudgetCategory> lst =
-        MyApp.of(context).budgetCategoryController.budgetCategories;
+        Bling.of(context).budgetCategoryController.budgetCategories;
     return lst.where((e) => e.number != 0).toList();
   }
 
   Budget get budget {
-    return MyApp.of(context).budgetController.budget!;
+    return Bling.of(context).budgetController.budget!;
   }
 
   void touchedCallback(FlTouchEvent event, touchResponse) => setState(() {
