@@ -6,7 +6,7 @@ class SpendGridViewTile extends StatefulWidget {
   final Alignment alignment;
   final bool selected;
   final void Function(BudgetCategory?) onSelectedCategory;
-
+  final void Function(BudgetCategory?) onTapDepense;
 
   const SpendGridViewTile(
       {super.key,
@@ -14,7 +14,8 @@ class SpendGridViewTile extends StatefulWidget {
         required this.group,
         required this.onSelectedCategory,
         this.selected = false,
-        required this.alignment
+        required this.alignment,
+        required this.onTapDepense
       });
 
   @override
@@ -35,7 +36,8 @@ class SpendGridViewTileState extends State<SpendGridViewTile> {
               category: widget.category,
               group: widget.group,
               selected: widget.selected,
-              onSelectedCategory: widget.onSelectedCategory
+              onSelectedCategory: widget.onSelectedCategory,
+              onTapDepense: widget.onTapDepense,
           ),
         ),
       ],

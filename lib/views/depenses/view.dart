@@ -6,8 +6,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bling/color.dart';
 import 'package:bling/home/body/budget_definition/body.dart';
 import 'package:bling/main.dart';
+import 'package:bling/models/budget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../models/budgetcategory.dart';
 import '../../models/budgetinstance.dart';
@@ -15,20 +17,74 @@ import '../../models/depense.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 
 part 'bottom_navigation_bar.dart';
-part 'body/body.dart';
-part 'body/view_selector.dart';
-part 'body/gridview/grid_view.dart';
-part 'body/gridview/tile.dart';
-part 'body/gridview/tile_upper.dart';
-part 'body/gridview/tile_lower_right.dart';
-part 'body/gridview/tile_lower_left.dart';
-part 'body/gridview/tile_lower_form.dart';
-part 'body/listview/list_view.dart';
-part 'body/listview/category_selector.dart';
-part 'body/listview/list_tile.dart';
+part 'body_depenses/body.dart';
+part 'body_depenses/view_selector.dart';
+part 'body_depenses/gridview/grid_view.dart';
+part 'body_depenses/gridview/tile.dart';
+part 'body_depenses/gridview/tile_upper.dart';
+part 'body_depenses/gridview/tile_lower_right.dart';
+part 'body_depenses/gridview/tile_lower_left.dart';
+part 'body_depenses/gridview/tile_lower_form.dart';
+part 'body_depenses/listview/list_view.dart';
+part 'body_depenses/listview/category_selector.dart';
+part 'body_depenses/listview/list_tile.dart';
 
-class SpendView extends StatelessWidget {
+part 'body_graph/body.dart';
+part 'body_graph/category_graph.dart';
+
+part 'body_budget/body.dart';
+part 'body_budget/category_line.dart';
+
+class SpendView extends StatefulWidget {
   const SpendView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => SpendViewState();
+}
+
+class SpendViewState extends State<SpendView> {
+
+  int selectedView = 1;
+  PageController pageController = PageController(initialPage: 1);
+
+  void onItemTap(int index) {
+    setState(() {
+      selectedView = index;
+    });
+    pageController.jumpToPage(index);
+  }
+
+  String get pageViewTitle {
+    switch (selectedView) {
+      case 0:
+        return "Définition\ndu budget";
+      case 1:
+        return "Tableau\ndes dépenses";
+      case 2 :
+        return "Graphiques\ndes dépenses";
+    }
+    return "";
+  }
+
+  static const List<String> _months = [
+    "Janvier",
+    "février",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre"
+  ];
+
+  String get subtitle {
+    DateTime now = DateTime.now();
+    return "${_months[now.month - 1]} ${now.year}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +108,7 @@ class SpendView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Tableau\ndes dépenses", style: TextStyle(fontWeight: FontWeight.bold, color: BlingColor.titleTextColor)),
+                  Text(pageViewTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: BlingColor.titleTextColor)),
                   MaterialButton(
                     onPressed: (){},
                     visualDensity: VisualDensity.compact,
@@ -63,16 +119,27 @@ class SpendView extends StatelessWidget {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Text('Janvier 2024', style: TextStyle(fontSize: 12, color: BlingColor.textColor)),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(subtitle, style: const TextStyle(fontSize: 12, color: BlingColor.textColor)),
               ),
             ],
           ),
         ),
         backgroundColor: BlingColor.scaffoldColor,
-        body: const SpendBody(),
-        bottomNavigationBar: const SpendBottomNavigationBar(),
+        body: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [
+            SpendBodyBudget(),
+            SpendBody(),
+            SpendBodyGraph()
+          ],
+        ),
+        bottomNavigationBar: SpendBottomNavigationBar(
+          onItemTap: onItemTap,
+          index: selectedView
+        ),
       ),
     );
   }

@@ -1,7 +1,9 @@
 part of spend_view;
 
 class SpendListView extends StatefulWidget {
-  const SpendListView({super.key});
+  final BudgetCategory? category;
+
+  const SpendListView({super.key, required this.category});
 
   @override
   State<StatefulWidget> createState() => SpendListViewState();
@@ -10,6 +12,12 @@ class SpendListView extends StatefulWidget {
 class SpendListViewState extends State<SpendListView> {
 
   BudgetCategory? selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.category;
+  }
 
   void onCategorySelected(BudgetCategory? category) {
     setState(() {
@@ -42,5 +50,4 @@ class SpendListViewState extends State<SpendListView> {
       ],
     );
   }
-
 }

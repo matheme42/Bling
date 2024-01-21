@@ -1,6 +1,7 @@
 part of spend_view;
 
 class SpendBody extends StatefulWidget {
+
   const SpendBody({super.key});
 
   @override
@@ -11,10 +12,17 @@ class SpendBodyState extends State<SpendBody> {
   int viewIndex = 0;
 
   PageController pageController = PageController();
+  BudgetCategory? selectedCategory;
 
   void onChangeView(int index) {
+    if (index == 0) selectedCategory = null;
     setState(() => viewIndex = index);
     pageController.jumpToPage(index);
+  }
+
+  void onTapDepense(BudgetCategory? category) {
+    setState(() => selectedCategory = category);
+    WidgetsBinding.instance.addPostFrameCallback((_) => onChangeView(1));
   }
 
   @override
@@ -29,9 +37,9 @@ class SpendBodyState extends State<SpendBody> {
             Expanded(child: PageView(
               controller: pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                SpendGridView(),
-                SpendListView()
+              children: [
+                SpendGridView(onTapDepense: onTapDepense),
+                SpendListView(category: selectedCategory)
               ],
             ))
           ],

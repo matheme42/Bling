@@ -1,7 +1,9 @@
 part of spend_view;
 
 class SpendGridView extends StatefulWidget {
-  const SpendGridView({super.key});
+  final void Function(BudgetCategory?) onTapDepense;
+
+  const SpendGridView({super.key, required this.onTapDepense});
 
   @override
   State<StatefulWidget> createState() => SpendGridViewState();
@@ -13,6 +15,7 @@ class SpendGridViewState extends State<SpendGridView> {
   void onSelectedCategory(BudgetCategory? category) {
     setState(() => selectedCategory = category);
   }
+
 
   void onSubmitDepense(Depense d) {
     DepenseController controller = Bling.of(context).depenseController;
@@ -41,7 +44,8 @@ class SpendGridViewState extends State<SpendGridView> {
                   LowerSpendGridViewTileLeft(
                     visible: selectedCategory == category,
                     category: category,
-                    animatedClose: true, onSubmitDepense: onSubmitDepense,
+                    animatedClose: true,
+                    onSubmitDepense: onSubmitDepense,
                   ),
                   SpendGridViewTile(
                     category: category,
@@ -49,6 +53,7 @@ class SpendGridViewState extends State<SpendGridView> {
                     onSelectedCategory: onSelectedCategory,
                     selected: selectedCategory == category,
                     alignment: Alignment.centerLeft,
+                    onTapDepense: widget.onTapDepense,
                   ),
                 ],
               );
@@ -66,6 +71,7 @@ class SpendGridViewState extends State<SpendGridView> {
                   group: group,
                   onSelectedCategory: onSelectedCategory,
                   selected: selectedCategory == category,
+                  onTapDepense: widget.onTapDepense,
                 ),
                 SpendGridViewTile(
                   alignment: Alignment.centerRight,
@@ -73,6 +79,7 @@ class SpendGridViewState extends State<SpendGridView> {
                   group: group,
                   onSelectedCategory: onSelectedCategory,
                   selected: selectedCategory == category2,
+                  onTapDepense: widget.onTapDepense,
                 ),
                 LowerSpendGridViewTileLeft(
                   onSubmitDepense: onSubmitDepense,
@@ -85,6 +92,7 @@ class SpendGridViewState extends State<SpendGridView> {
                     group: group,
                     onSelectedCategory: onSelectedCategory,
                     selected: selectedCategory == category,
+                    onTapDepense: widget.onTapDepense,
                   ),
                 ),
               ],

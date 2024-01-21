@@ -5,13 +5,15 @@ class UpperSpendGridViewTile extends StatelessWidget {
   final AutoSizeGroup group;
   final bool selected;
   final void Function(BudgetCategory?) onSelectedCategory;
+  final void Function(BudgetCategory?) onTapDepense;
 
   const UpperSpendGridViewTile({
     super.key,
     required this.category,
     required this.group,
     required this.selected,
-    required this.onSelectedCategory
+    required this.onSelectedCategory,
+    required this.onTapDepense
   });
 
   @override
@@ -30,7 +32,8 @@ class UpperSpendGridViewTile extends StatelessWidget {
                   category: category,
                   group: group,
                   selected: selected,
-                  onSelectedCategory: onSelectedCategory
+                  onSelectedCategory: onSelectedCategory,
+                  onTapDepense: onTapDepense,
               ),
             ],
           ),
@@ -45,12 +48,15 @@ class _UpperSpendGridViewTileContent extends StatelessWidget {
   final AutoSizeGroup group;
   final bool selected;
   final void Function(BudgetCategory?) onSelectedCategory;
+  final void Function(BudgetCategory?) onTapDepense;
+
 
   const _UpperSpendGridViewTileContent({
     required this.category,
     required this.group,
     required this.selected,
-    required this.onSelectedCategory});
+    required this.onSelectedCategory,
+    required this.onTapDepense});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +111,7 @@ class _UpperSpendGridViewTileContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InkWell(
-                    onTap: (){},
+                    onTap: () => onTapDepense(category),
                     borderRadius: BorderRadius.circular(8),
                     radius: 15,
                     child: Padding(

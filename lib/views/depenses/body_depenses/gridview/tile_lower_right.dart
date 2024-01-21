@@ -27,17 +27,23 @@ class LowerSpendGridViewTileRightState
       timer?.cancel();
       timer = Timer(const Duration(milliseconds: 300), () {
         timer = null;
-        setState(() => hider = false);
+        hider = false;
+        if (!mounted) return ;
+        setState(() {});
       });
     }
     if (oldWidget.visible == true && widget.visible == false) {
       timer?.cancel();
       timer = Timer(const Duration(milliseconds: 300), () {
+        hider = true;
+        if (!mounted) return ;
         timer = Timer(const Duration(milliseconds: 700), () {
           timer = null;
-          setState(() => visible = false);
+          visible = false;
+          if (!mounted) return ;
+          setState(() {});
         });
-        setState(() => hider = true);
+        setState(() {});
       });
     }
     super.didUpdateWidget(oldWidget);

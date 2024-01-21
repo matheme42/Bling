@@ -16,11 +16,11 @@ import 'models/budgetinstance.dart';
 import 'views/depenses/view.dart';
 
 void main() => Bling(level: Level.FINEST, themes: {
-   'default' : {
-     'light' : ThemeData(fontFamily: 'Poppins', primaryColor: BlingColor.appBarColor),
-     'dark' : ThemeData(fontFamily: 'Poppins', primaryColor: BlingColor.appBarColor)
-   }
-   });
+    'default' : {
+      'light' : ThemeData(fontFamily: 'Poppins', primaryColor: BlingColor.appBarColor),
+      'dark' : ThemeData(fontFamily: 'Poppins', primaryColor: BlingColor.appBarColor)
+    }
+  });
 
 class Bling extends AppBase with BlingGlobalContext {
   Bling({super.key, super.level, super.themes});
@@ -29,12 +29,20 @@ class Bling extends AppBase with BlingGlobalContext {
     return context.findAncestorWidgetOfExactType<Bling>()!;
   }
 
+  /// that part of code is execute before the runapp
   @override
   Future<void> initialize() async {
     await super.initialize();
-    await Wakelock.disable();
     changeTheme('default');
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  /// this code is run after the runapp
+  @override
+  Future<void> configure(void Function([String message]) forward) async {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    await Wakelock.disable();
+    super.configure(forward);
   }
 
   @override
