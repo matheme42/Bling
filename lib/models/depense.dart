@@ -1,6 +1,5 @@
 import 'package:bling/base/app_base.dart';
 import 'package:bling/models/budgetinstance.dart';
-import 'package:flutter/foundation.dart';
 
 class Depense extends Model {
   static const String tableName = "Depense";

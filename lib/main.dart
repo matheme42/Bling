@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bling/color.dart';
 import 'package:bling/context.dart';
-import 'package:bling/home/view.dart';
 import 'package:bling/models/budget.dart';
 import 'package:bling/models/budgetcategory.dart';
 import 'package:bling/models/depense.dart';
@@ -46,14 +45,14 @@ class Bling extends AppBase with BlingGlobalContext {
   }
 
   @override
-  int get dbVersion => 2;
+  int get dbVersion => 3;
 
   @override
   FutureOr<void> onCreatingDatabase(Database db, int version) async {
     await db.execute(
         'CREATE TABLE ${Budget.tableName} (id INTEGER PRIMARY KEY, number REAL)');
     await db.execute(
-        'CREATE TABLE ${BudgetCategory.tableName} (id INTEGER PRIMARY KEY, name TEXT, number REAL, icon TEXT, enable INTEGER, color INTEGER)');
+        'CREATE TABLE ${BudgetCategory.tableName} (id INTEGER PRIMARY KEY, name TEXT, number REAL, icon TEXT, enable INTEGER, color INTEGER, position INTEGER)');
     await db.execute(
         'CREATE TABLE ${BudgetInstance.tableName} (id INTEGER PRIMARY KEY, number REAL, month INTEGER, year INTEGER, budget_category_id INTEGER)');
     await db.execute(
@@ -67,6 +66,9 @@ class Bling extends AppBase with BlingGlobalContext {
       oldVersion++;
       if (oldVersion == 2) {
         db.execute("ALTER TABLE ${Depense.tableName} ADD COLUMN date TEXT");
+      }
+      if (oldVersion == 3) {
+        db.execute("ALTER TABLE ${BudgetCategory.tableName} ADD COLUMN position INTEGER");
       }
     }
   }
@@ -86,8 +88,7 @@ class Bling extends AppBase with BlingGlobalContext {
       supportedLocales: locales,
       initialRoute: '/',
       routes: {
-        '/': (context) => const Home(),
-        '/second': (context) => const SpendView(),
+        '/': (context) => const SpendView(),
       },
       builder: builder,
       themeMode: themeMode,

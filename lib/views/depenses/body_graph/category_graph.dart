@@ -11,9 +11,13 @@ class SpendCategoryGraph extends StatelessWidget {
     if (instance == null) return const SizedBox.shrink();
     int depense = (instance.number - instance.depense).toInt();
     Color redError = const Color(0xfff15a24);
-    double ratio = depense / instance.number;
-    if (ratio < 0) ratio = 0;
-    if (ratio > 1) ratio = 1;
+
+    double ratio = 0;
+    if (instance.number > 0) {
+      ratio = depense / instance.number;
+      if (ratio < 0) ratio = 0;
+      if (ratio > 1) ratio = 1;
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Column(

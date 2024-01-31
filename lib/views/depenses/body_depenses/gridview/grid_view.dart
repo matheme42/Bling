@@ -38,7 +38,7 @@ class SpendGridViewState extends State<SpendGridView> {
           mainAxisSize: MainAxisSize.max,
           children: List<Widget>.generate(len, (index) {
             BudgetCategory category = categories[index << 1];
-            if (index << 1 >= len) {
+            if (index + 1 >= len && (categories.length % 2 == 1)) {
               return Stack(
                 children: [
                   LowerSpendGridViewTileLeft(

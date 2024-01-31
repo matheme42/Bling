@@ -1,21 +1,24 @@
 import 'dart:async';
 
 import 'package:bling/base/app_base.dart';
+import 'package:bling/color.dart';
 import 'package:bling/models/budgetinstance.dart';
 import 'package:flutter/material.dart';
 
 class BudgetCategory extends Model {
   static const String tableName = "BudgetCategory";
 
-  late String name;
+  String name = "";
 
-  late double number;
+  double number = 0;
 
-  late String icon;
+  String icon = "";
 
-  late bool enable;
+  bool enable = true;
 
-  Color color = Colors.brown[400]!;
+  Color color = BlingColor.scaffoldColor;
+
+  int? position;
 
   /// Link of the active instance of the category
   BudgetInstance? activeInstance;
@@ -27,6 +30,7 @@ class BudgetCategory extends Model {
     number = data['number'] ?? number;
     enable = data['enable'] > 0 ? true : false;
     color = Color(data['color']);
+    position = data['position'] ?? position;
     super.fromMap(data);
   }
 
@@ -38,6 +42,7 @@ class BudgetCategory extends Model {
     message['number'] = number;
     message['enable'] = enable ? 1 : 0;
     message['color'] = color.value;
+    message['position'] = position;
     return message..addAll(super.asMap());
   }
 }
@@ -72,13 +77,21 @@ class BudgetCategoryController extends Controller<BudgetCategory> {
     for (var budget in budgetCategoryListQuery) {
       budgetCategories.add(BudgetCategory()..fromMap(budget));
     }
-    budgetCategories.sort((a, b) => a.name.compareTo(b.name));
+
+    int index = 0;
+    for (var element in budgetCategories) {
+      element.position ??= index;
+      await update(budgetCategories[index]);
+      index++;
+    }
+    budgetCategories.sort((a, b) => (a.position! > b.position!) ? 1 : 0);
     return (budgetCategories);
   }
 
   @override
   Future<BudgetCategory> insert(BudgetCategory model) async {
     BudgetCategory budgetCategory = await super.insert(model);
+    model.position = budgetCategories.length;
     budgetCategories.add(budgetCategory);
     _onChange.sink.add(null);
     return budgetCategory;
@@ -97,5 +110,18 @@ class BudgetCategoryController extends Controller<BudgetCategory> {
     int id = await super.update(model);
     _onChange.sink.add(null);
     return id;
+  }
+
+  Future<List<int>> updates(List<BudgetCategory> models) async {
+    Batch batch = db.batch();
+
+    int index = 0;
+    for (var p in models) {
+      p.position = index;
+      batch.update(table, p.asMap(), where: 'id = ?', whereArgs: [p.id]);
+      index++;
+    }
+    await batch.commit();
+    return List.generate(models.length, (index) => models[index].id!);
   }
 }

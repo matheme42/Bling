@@ -4,12 +4,12 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bling/color.dart';
-import 'package:bling/home/body/budget_definition/body.dart';
+import 'package:bling/extensions.dart';
 import 'package:bling/main.dart';
-import 'package:bling/models/budget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../models/budgetcategory.dart';
 import '../../models/budgetinstance.dart';
@@ -34,6 +34,10 @@ part 'body_graph/category_graph.dart';
 
 part 'body_budget/body.dart';
 part 'body_budget/category_line.dart';
+part 'body_budget/category_line_number.dart';
+part 'body_budget/category_line_label.dart';
+part 'body_budget/category_line_color.dart';
+part 'body_budget/category_list_view.dart';
 
 class SpendView extends StatefulWidget {
   const SpendView({super.key});
@@ -45,12 +49,14 @@ class SpendView extends StatefulWidget {
 class SpendViewState extends State<SpendView> {
 
   int selectedView = 1;
-  PageController pageController = PageController(initialPage: 1);
+  PageController pageController = PageController(initialPage: 1, keepPage: false);
+  GlobalKey globalKey = GlobalKey();
 
   void onItemTap(int index) {
     setState(() {
       selectedView = index;
     });
+    globalKey = GlobalKey();
     pageController.jumpToPage(index);
   }
 
@@ -130,10 +136,10 @@ class SpendViewState extends State<SpendView> {
         body: PageView(
           controller: pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            SpendBodyBudget(),
-            SpendBody(),
-            SpendBodyGraph()
+          children: [
+            SpendBodyBudget(key: globalKey),
+            const SpendBody(),
+            const SpendBodyGraph()
           ],
         ),
         bottomNavigationBar: SpendBottomNavigationBar(

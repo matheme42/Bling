@@ -151,9 +151,12 @@ class _UpperSpendGridViewTileBackgroundColor extends StatelessWidget {
   Widget build(BuildContext context) {
     BudgetInstance? instance = category.activeInstance;
     if (instance == null) return const SizedBox.shrink();
-    double heightFactor = (instance.number - instance.depense) / instance.number;
-    if (heightFactor > 1) heightFactor = 1;
-    if (heightFactor < 0) heightFactor = 0;
+    double heightFactor = 0;
+    if (instance.number > 0) {
+      heightFactor = (instance.number - instance.depense) / instance.number;
+      if (heightFactor > 1) heightFactor = 1;
+      if (heightFactor < 0) heightFactor = 0;
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
