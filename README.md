@@ -4,7 +4,7 @@ Il s'agit d'une petite application personnelle en cours de développement.
 
 Cette application a pour but d'aider à gérer son budget mensuel.
 
-Le design est réalisé par vincent roux: https://www.linkedin.com/in/vincent-roux-9abb12158/
+Le design est réalisé par [vincent roux](https://www.linkedin.com/in/vincent-roux-9abb12158/)
 
 Lien playstore: Non disponible
 
