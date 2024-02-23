@@ -20,7 +20,7 @@ Engine • revision 04817c99c9
 Tools • Dart 3.3.0 • DevTools 2.31.1
 ```
 
-Pour compiler et lancer le project lancer les commande suivantes :
+**Pour compiler et lancer le project lancer les commande suivantes** :
 - `flutter clean`
 - `flutter pub get`
 - `flutter pub upgrade`
