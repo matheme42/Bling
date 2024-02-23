@@ -1,9 +1,8 @@
 # Bling
 
-Il s'agit d'une petite application personnel en cour de développement entre amis afin de
-tester et d'améliorer nos competences en croisant nos connaissances.
+Il s'agit d'une petite application personnelle en cours de développement.
 
-Cette application a pour but d'aider a gerer son budget mensuel.
+Cette application a pour but d'aider à gérer son budget mensuel.
 
 Le design est réalisé par vincent roux: https://www.linkedin.com/in/vincent-roux-9abb12158/
 
